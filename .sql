@@ -1,0 +1,24 @@
+CREATE DATABASE IF NOT EXISTS grava;
+
+USE grava;
+
+CREATE TABLE user_information (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    dni VARCHAR(255) NOT NULL UNIQUE,
+    age INT CHECK (age >= 0 AND age <= 200),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE user (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    color VARCHAR(20) CHECK (color IN ('red', 'green', 'blue')),
+    enabled BOOLEAN DEFAULT TRUE,
+    user_information_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_information_id) REFERENCES user_information(id)
+);
