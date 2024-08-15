@@ -7,6 +7,8 @@ const routes = require('./lib/routes');
 const expressWinston = require('express-winston');
 const app = express();
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 
 function connectMongoose() {
     const mongoose = require('mongoose');
@@ -28,6 +30,9 @@ function initialize() {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
     app.use(cookieParser());
+
+    const swaggerDocument = YAML.load('./swagger.yaml');
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     Object.keys(routes).forEach((key) => {
         app.use('/api', routes[key]);

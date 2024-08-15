@@ -1,0 +1,239 @@
+openapi: 3.0.0
+info:
+  title: API de Usuarios
+  description: Documentación de la API de usuarios
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /users/{id}:
+    put:
+      summary: Actualiza un usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: string
+                email:
+                  type: string
+                name:
+                  type: string
+                lastName:
+                  type: string
+                dni:
+                  type: string
+                age:
+                  type: integer
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente
+        '400':
+          description: Solicitud incorrecta
+        '500':
+          description: Error interno del servidor
+    patch:
+      summary: Actualiza parcialmente un usuario
+      description: Realiza una actualización parcial de los detalles de un usuario existente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario que se desea actualizar.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: string
+                  description: Color del usuario.
+                email:
+                  type: string
+                  description: Correo electrónico del usuario.
+                name:
+                  type: string
+                  description: Nombre del usuario.
+                lastName:
+                  type: string
+                  description: Apellido del usuario.
+                dni:
+                  type: string
+                  description: Documento Nacional de Identidad del usuario.
+                age:
+                  type: integer
+                  description: Edad del usuario.
+      responses:
+        '200':
+          description: Usuario parcialmente actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID del usuario.
+                  color:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  lastName:
+                    type: string
+                  dni:
+                    type: string
+                  age:
+                    type: integer
+        '400':
+          description: Solicitud incorrecta. Datos no válidos.
+        '404':
+          description: Usuario no encontrado.
+        '500':
+          description: Error interno del servidor.
+  /users:
+    get:
+      summary: Obtiene una lista de usuarios
+      description: Obtiene una lista de usuarios con filtros y opciones de ordenación.
+      parameters:
+        - name: enabled
+          in: query
+          description: Filtra los usuarios por su estado habilitado o deshabilitado.
+          schema:
+            type: boolean
+        - name: sortBy
+          in: query
+          description: Ordena los usuarios por el campo especificado. Prefija con `-` para orden descendente.
+          schema:
+            type: string
+            example: "-createdAt"  # Ejemplo de campo para ordenar
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: ID del usuario.
+                    color:
+                      type: string
+                      description: Color del usuario.
+                    email:
+                      type: string
+                      description: Correo electrónico del usuario.
+                    name:
+                      type: string
+                      description: Nombre del usuario.
+                    lastName:
+                      type: string
+                      description: Apellido del usuario.
+                    dni:
+                      type: string
+                      description: Documento Nacional de Identidad del usuario.
+                    age:
+                      type: integer
+                      description: Edad del usuario.
+                    userInformation:
+                      type: object
+                      description: Información adicional del usuario.
+        '204':
+          description: No hay usuarios que cumplan con los criterios de búsqueda.
+        '500':
+          description: Error interno del servidor.
+  /users/{id}/disable:
+    post:
+      summary: Desactiva un usuario
+      description: Desactiva un usuario existente mediante el cambio de su estado habilitado a deshabilitado.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario que se desea desactivar.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Usuario deshabilitado correctamente.
+        '400':
+          description: Usuario no encontrado o ya deshabilitado.
+        '500':
+          description: Error interno del servidor.
+  /user:
+    post:
+      summary: Crea un nuevo usuario
+      description: Crea un nuevo usuario con información adicional asociada.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                color:
+                  type: string
+                  description: Color del usuario. Valores permitidos: "red", "green", "blue".
+                email:
+                  type: string
+                  format: email
+                  description: Correo electrónico del usuario.
+                name:
+                  type: string
+                  description: Nombre del usuario.
+                lastName:
+                  type: string
+                  description: Apellido del usuario.
+                dni:
+                  type: string
+                  description: Documento Nacional de Identidad del usuario.
+                age:
+                  type: integer
+                  description: Edad del usuario.
+              required:
+                - email
+                - dni
+      responses:
+        '201':
+          description: Usuario creado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID del usuario creado.
+                  color:
+                    type: string
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  lastName:
+                    type: string
+                  dni:
+                    type: string
+                  age:
+                    type: integer
+        '400':
+          description: Solicitud incorrecta. Datos no válidos o DNI duplicado.
+        '500':
+          description: Error interno del servidor.
