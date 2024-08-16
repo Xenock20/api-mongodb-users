@@ -30,6 +30,18 @@ Use `start` script from package.json.
   GET /api/users
 ```
 
+```http
+  GET /api/users?enabled=false&sortBy=-userInformation.name
+```
+
+```http
+  GET /api/users?enabled=true&sortBy=userInformation.age
+```
+
+```http
+  GET /api/users?sortBy=email
+```
+
 #### New user
 
 ```http
