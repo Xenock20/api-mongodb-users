@@ -6,7 +6,7 @@ info:
 servers:
   - url: http://localhost:3000
 paths:
-  /users/{id}:
+  /api/users/{id}:
     put:
       summary: Actualiza un usuario
       parameters:
@@ -105,7 +105,7 @@ paths:
           description: Usuario no encontrado.
         '500':
           description: Error interno del servidor.
-  /users:
+  /api/users:
     get:
       summary: Obtiene una lista de usuarios
       description: Obtiene una lista de usuarios con filtros y opciones de ordenación.
@@ -159,7 +159,7 @@ paths:
           description: No hay usuarios que cumplan con los criterios de búsqueda.
         '500':
           description: Error interno del servidor.
-  /users/{id}/disable:
+  /api/users/{id}/disable:
     post:
       summary: Desactiva un usuario
       description: Desactiva un usuario existente mediante el cambio de su estado habilitado a deshabilitado.
@@ -177,7 +177,7 @@ paths:
           description: Usuario no encontrado o ya deshabilitado.
         '500':
           description: Error interno del servidor.
-  /user:
+  /api/user:
     post:
       summary: Crea un nuevo usuario
       description: Crea un nuevo usuario con información adicional asociada.
